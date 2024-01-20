@@ -8,4 +8,4 @@ In addition to the hypercarry, select up to three support characters, including 
 - Build optimizer:
 Select what options do you want to optimize - currently includes weapon and artifact main stats - and calculate the option with the highest relevant output.
 - Buffer optimizer:
-Select what support characters are available, how many to use, and calculate relative damage outputs for different combinations, showing the highest output one. Characters providing elemental resonance do not currently count, this will be added later.
+Select what support characters are available, how many to use, and calculate relative damage outputs for different combinations, showing the highest output one. Non-buffer characters providing elemental resonance are considered as always available.
