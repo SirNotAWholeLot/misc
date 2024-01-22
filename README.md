@@ -3,5 +3,4 @@ Various miscellaneous projects and experimental stuff to show off what I can do 
 
 To add:
 - Recent ANN example (non-patented?)
-- Qt examples
-- Downloads sorter when ported
+- More Qt examples
