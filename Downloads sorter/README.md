@@ -8,7 +8,9 @@ Python (Jupyter notebook) version:
 
 C version:
 - Old version of the program made in 2015, provided as an example
+- Lacks customization or GUI
 
 C++ versions:
 - Base: old version of the program made in 2020, provided as an example
 - Non-unicode: an adjusted version I made after running into some issues handling non-lower-ASCII filenames in 2023, provided as an example
+- Lack customization or GUI
