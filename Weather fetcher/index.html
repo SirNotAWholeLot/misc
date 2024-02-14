@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test: Weather Fetcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+ 
+<body>
+    <script src="js/functions.js"></script>
+    <script src="js/cities_list.js"></script>
+    <h1>Test page: weather fetcher</h1>
+    <p id="paragraph_date">...</p>
+    <script>
+        let d = new Date();
+        document.getElementById("paragraph_date").innerHTML = `This page was loaded at ${d}`;
+    </script>
+    <p>This is a test page written to practice some HTML and JS stuff. Right now, it is supposed to fetch and display weather in different cities when you press the corresponding button.</p>
+    <h2>Display weather in:</h2>
+    <div id="cont_weather">
+        <!--Populate this container with a vertical stack of divs containing a button and a paragraph for each city-->
+        <script>populate_cities_container(cities_list);</script>
+    </div>
+</body>
+ 
+</html>
