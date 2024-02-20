@@ -4,3 +4,4 @@ A notebook containing various standalone small things and code written to test t
 - Some tests for Keras model maker when there was a memory leak somewhere, solving that through multiprocessing application
 - Making non-preloading switchable layouts and a basic data graph plotter in PyQt
 - Automating calling an inconvenient .exe on specific files recursively found in the current path
+- Downloading a specific image from the Net and saving it with a timestamp
