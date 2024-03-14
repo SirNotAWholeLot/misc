@@ -1,5 +1,7 @@
 This is a (limited functionality) party/build optimizer for the game Genshin Impact, focusing on 'hypercarry' compositions - where one character does meaningful damage and others buff them.
 
+GUI is made using PyQt5, the structure is somewhat modular - while this is a singular Jupyter notebook, functional and GUI elements are organized by cells and can be easily exported to be standalone.
+
 Features:
 - Build output calculator:
 Calculating (relative) damage output for a selected hypercarry character with the current weapon option, including level, refinement level and passive efficiency, artifact selection, substat sums, and relevant artifact options. Provides a breakdown of effective stats after all buffs and conversions.
