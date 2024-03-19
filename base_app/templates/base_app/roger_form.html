@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>Roger Man</h1>
+<h3>Create a new response entry</h3>
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<div>
+    <h5><a href="/roger_man">Back to Roger Man page</a></h5>
+</div>
+
+{% endblock content %}

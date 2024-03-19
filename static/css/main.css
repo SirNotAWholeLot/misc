@@ -1,0 +1,5 @@
+.box_basic {
+    border:1px solid black;
+    width: fit-content;
+    margin: 10px;
+}
