@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>Post:</h1>
+<h3>{{original.name}}</h3>
+<small>Posted by: {{original.poster}}</small>
+<p>{{original.body}}</p>
+<small>Created: {{original.created}} Latest reply: {{original.updated}}</small>
+<h3>Replies:</h3>
+{% for item in replies %}
+    <div class="box_basic">
+    <h4>Reply by: {{item.poster}}</h4>
+    <p>{{item.body}}</p>    
+    <small>{{item.created}}</small>
+</div>
+{% endfor %}
+<div>
+    <h4><a href="/posts/{{original.id}}/reply">Create a reply</a></h4>
+</div>
+<div>
+    <h5><a href="/posts">Back to the user posts page</a></h5>
+</div>
+
+{% endblock content %}
