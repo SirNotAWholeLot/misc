@@ -6,6 +6,7 @@
 <small>Posted by: {{original.poster}}</small>
 <p>{{original.body}}</p>
 <small>Created: {{original.created}} Latest reply: {{original.updated}}</small>
+<small><a href="/posts/item_id={{original.id}}/edit">Edit post</a></small>
 <h3>Replies:</h3>
 {% for item in replies %}
     <div class="box_basic">
@@ -15,7 +16,7 @@
 </div>
 {% endfor %}
 <div>
-    <h4><a href="/posts/{{original.id}}/reply">Create a reply</a></h4>
+    <h4><a href="/posts/item_id={{original.id}}/reply">Create a reply</a></h4>
 </div>
 <div>
     <h5><a href="/posts">Back to the user posts page</a></h5>

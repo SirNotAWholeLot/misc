@@ -17,7 +17,7 @@ class Todo_obj(models.Model): # Major objectives for the to-do list. Each can ha
     id = models.AutoField(primary_key=True) 
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
-    update = models.DateTimeField(auto_now=True)    # For some reason, I can't make the timestamps work yet
+    updated = models.DateTimeField(auto_now=True)    # For some reason, I can't make the timestamps work yet
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -38,7 +38,7 @@ class Todo_phase(models.Model): # Phases are essentially sub-objectives for the 
     objective = models.ForeignKey(Todo_obj, on_delete=models.CASCADE) # Removing objective -> remove all it's phases
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
-    update = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -52,8 +52,11 @@ class Post_op(models.Model): # Opening post
     poster = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=100)
     body = models.TextField(max_length=300)
-    update = models.DateTimeField() # Should refer to the last reply time
+    updated = models.DateTimeField() # Should refer to the last reply time
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated', '-created'] # The '-' before the field inverts sorting order
 
     def __str__(self):
         return self.title
@@ -69,7 +72,7 @@ class Post_reply(models.Model): # Reply: tied to an opening post
     poster = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     op = models.ForeignKey(Post_op, on_delete=models.CASCADE)
     body = models.TextField(max_length=300)
-    #update = models.DateTimeField(auto_now=True) # Editing functionality is not supported yet
+    #updated = models.DateTimeField(auto_now=True) # Editing functionality is not supported yet
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

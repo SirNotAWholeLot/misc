@@ -40,7 +40,7 @@ def posts_list(request):
 
 def posts_post(request, pk):
     context = {'original': Post_op.objects.get(id=pk), 'replies': Post_reply.objects.filter(op__id=pk)}
-    return render(request, 'base_app/todo_obj.html', context)
+    return render(request, 'base_app/posts_post.html', context)
 
 def post_create_op(request):
     context = {'form': Form_Post_op()}
@@ -48,13 +48,30 @@ def post_create_op(request):
         form = Form_Post_op(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('User posts') # Should redirect to the newly created post page
+            return redirect("posts/<str:form['id'].value()>") # Should redirect to the newly created post page
     return render(request, 'base_app/posts_op_form.html', context)
 
-def post_create_reply(request, pk):
-    context = {'form': Form_Post_reply()}
+def post_edit_op(request, pk):
+    post = Post_op.objects.get(id=pk)
+    context = {'post': post, 'form': Form_Post_op(instance=post)}
     if request.method == 'POST':
-        form = Form_Post_reply(request.POST)
+        form = Form_Post_op(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('User posts')
+    return render(request, 'base_app/posts_op_form.html', context)
+
+def delete_post_op(request, pk):
+    context = {'object':Post_op.objects.get(id=pk)}
+    if request.method == 'POST':
+        Post_op.delete()
+        return redirect('User posts')
+    return render(request, 'base_app/form_delete.html', context)
+
+def post_create_reply(request, pk):
+    context = {'original': Post_op.objects.get(id=pk), 'form': Form_Post_reply()} # The op ID should be automatically given to the reply creator
+    if request.method == 'POST':
+        form = Form_Post_reply(request.POST) 
         if form.is_valid():
             form.save()
             #return redirect('posts_post', pk=pk) # Should return to the post page

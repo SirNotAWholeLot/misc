@@ -6,7 +6,7 @@
 <h3>Objectives:</h3>
 <div class="box_basic">
     {% for item in objectives %}
-    <h4><a href="/todo/{{item.id}}">{{item.name}}</a></h4>
+    <h4><a href="/todo/item_id={{item.id}}">{{item.name}}</a></h4>
     <p>{{item.short_desc}}</p>
     {% endfor %}
 </div>
