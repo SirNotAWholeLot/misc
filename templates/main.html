@@ -11,6 +11,15 @@
 </head>
 <body>
     {% include 'navbar.html' %}
+    <!-- These arcane runes are a standard way to show Django flash messages -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <!-- Main content block -->
     <div style="padding-left:20px;">
         {% block content %}
         {% endblock %}

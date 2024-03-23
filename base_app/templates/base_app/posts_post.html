@@ -6,7 +6,9 @@
 <small>Posted by: {{original.poster}}</small>
 <p>{{original.body}}</p>
 <small>Created: {{original.created}} Latest reply: {{original.updated}}</small>
-<small><a href="/posts/item_id={{original.id}}/edit">Edit post</a></small>
+{% if request.user == original.poster %}
+<small><a href="/posts/item_id={{original.id}}/edit">Edit post</a><a href="/posts/item_id={{original.id}}/delete">Delete post</a></small>
+{% endif %}
 <h3>Replies:</h3>
 {% for item in replies %}
     <div class="box_basic">
