@@ -52,7 +52,7 @@ class Post_op(models.Model): # Opening post
     poster = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=100)
     body = models.TextField(max_length=300)
-    updated = models.DateTimeField() # Should refer to the last reply time
+    updated = models.DateTimeField(auto_now=True) # Should refer to the last reply time
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -2,18 +2,24 @@
 {% block content %}
 
 <h1>Post:</h1>
-<h3>{{original.name}}</h3>
-<small>Posted by: {{original.poster}}</small>
-<p>{{original.body}}</p>
-<small>Created: {{original.created}} Latest reply: {{original.updated}}</small>
-{% if request.user == original.poster %}
-<small><a href="/posts/item_id={{original.id}}/edit">Edit post</a><a href="/posts/item_id={{original.id}}/delete">Delete post</a></small>
-{% endif %}
+<div class="box_basic">
+    <h3>{{original.title}}</h3>
+    <small><b>By</b>: {{original.poster}}</small>
+    <div class="box_basic">
+        <p>{{original.body}}</p>
+    </div>    
+    <small><b>Created:</b> {{original.created}} <b>Updated:</b> {{original.updated}}</small>
+    {% if request.user == original.poster %}
+    <small><br><a href="/posts/item_id={{original.id}}/edit">Edit post</a> <a href="/posts/item_id={{original.id}}/delete">Delete post</a></small>
+    {% endif %}
+</div>
 <h3>Replies:</h3>
 {% for item in replies %}
-    <div class="box_basic">
+<div class="box_basic">
     <h4>Reply by: {{item.poster}}</h4>
-    <p>{{item.body}}</p>    
+    <div class="box_basic"><p>
+        {{item.body}}</p>
+    </div>        
     <small>{{item.created}}</small>
 </div>
 {% endfor %}

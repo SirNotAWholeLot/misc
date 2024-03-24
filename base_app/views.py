@@ -13,7 +13,7 @@ from .forms import Form_Roger_preprep_line, Form_Post_op, Form_Post_reply
 def login_page(request): # 'login' is already a function
     variant = 'login'
     if request.user.is_authenticated:
-        return redirect('')
+        return redirect('/')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -24,7 +24,7 @@ def login_page(request): # 'login' is already a function
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # This method itself does not require authentification
-            return redirect('')
+            return redirect('/')
         else:
             messages.error(request, "Username or password is incorrect")
     context = {'variant': variant}
@@ -32,7 +32,7 @@ def login_page(request): # 'login' is already a function
 
 def logout_page(request):
     logout(request)
-    return redirect('')
+    return redirect('/')
 
 def register_page(request):
     variant = 'register'
@@ -43,7 +43,7 @@ def register_page(request):
             # Can do stuff with the user credentials here if required
             user.save()
             login(request, user)
-            return redirect('')
+            return redirect('/')
         else:
             messages.error(request, "Error registering user")
     context = {'variant': variant, 'form': UserCreationForm()}
@@ -92,8 +92,10 @@ def post_create_op(request):
     if request.method == 'POST':
         form = Form_Post_op(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("posts/<str:form['id'].value()>") # Should redirect to the newly created post page
+            filled = form.save(commit=False)
+            filled.poster = request.user
+            filled.save()
+            return redirect('posts/item_id=' + str(form['id'].value())) # Should redirect to the newly created post page
     return render(request, 'base_app/posts_op_form.html', context)
 
 @login_required(login_url='Login')
@@ -102,11 +104,13 @@ def post_edit_op(request, pk):
     context = {'post': post, 'form': Form_Post_op(instance=post)}
     if request.user != post.poster: # Admins should still be able to do this
         messages.error(request, "You do not have the rights for this")
-        return redirect('posts/<str:pk>')
+        return redirect('/posts/item_id=' + str(pk))
     if request.method == 'POST':
         form = Form_Post_op(request.POST, instance=post)
         if form.is_valid():
-            form.save()
+            filled = form.save(commit=False)
+            filled.poster = request.user
+            filled.save()
             return redirect('User posts')
     return render(request, 'base_app/posts_op_form.html', context)
 
@@ -116,10 +120,10 @@ def delete_post_op(request, pk):
     context = {'object':Post_op.objects.get(id=pk)}
     if request.user != post.poster:
         messages.error(request, "You do not have the rights for this")
-        return redirect('posts/<str:pk>')
+        return redirect('/posts/item_id=' + str(pk))
     if request.method == 'POST':
         Post_op.delete()
-        return redirect('User posts')
+        return redirect('/posts')
     return render(request, 'base_app/form_delete.html', context)
 
 @login_required(login_url='Login')
@@ -128,7 +132,10 @@ def post_create_reply(request, pk):
     if request.method == 'POST':
         form = Form_Post_reply(request.POST) 
         if form.is_valid():
-            form.save()
+            filled = form.save(commit=False)
+            filled.poster = request.user
+            filled.op = Post_op.objects.get(id=pk)
+            filled.save()
             #return redirect('posts_post', pk=pk) # Should return to the post page
-            return redirect('posts/<str:pk>')
+            return redirect('/posts/item_id=' + str(pk))
     return render(request, 'base_app/posts_reply_form.html', context)

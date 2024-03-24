@@ -5,10 +5,13 @@
 <p>A list of posts made by users</p>
 {% for item in posts %}
 <div class="box_basic">
-    <h4><a href="/posts/item_id={{item.id}}">{{item.name}}</a> by: {{item.poster}}</h4>
-    <p>{{item.short_body}}</p>
+    <h4><a href="/posts/item_id={{item.id}}">{{item.title}}</a></h4>
+    <small><b>By:</b> {{item.poster}}</small>
+    <div class="box_basic">
+        <p>{{item.short_body}}</p>
+    </div>
     <p>Replies: {{item.num_replies}}</p>
-    <small>Created: {{objetive.created}} Latest reply: {{objective.updated}}</small>
+    <small><b>Created:</b> {{objetive.created}} <b>Updated:</b> {{objective.updated}}</small>
 </div>
 {% endfor %}
 <div>
