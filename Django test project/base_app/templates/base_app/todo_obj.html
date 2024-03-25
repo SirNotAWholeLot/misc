@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>To do:</h1>
+<h3>{{objective.name}}</h3>
+<p>{{objective.description}}</p>
+<small>Created: {{objetive.created|time}} Updated: {{objective.updated}}</small>
+<h3>Phases:</h3>
+{% for item in phases %}
+    <div class="box_basic">
+    <h4>{{item.name}}</h4>
+    <p>{{item.short_desc}}</p>    
+</div>
+{% endfor %}
+<div>
+    <h5><a href="/todo">Back to Todo list</a></h5>
+</div>
+
+
+{% endblock content %}

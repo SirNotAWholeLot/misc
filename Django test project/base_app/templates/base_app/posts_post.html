@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>Post:</h1>
+<div class="box_post">
+    <h3>{{original.title}}</h3>
+    <p><b>By</b>: {{original.poster}}</p>
+    <div class="box_basic">
+        <p>{{original.body}}</p>
+    </div>    
+    <small><b>Created:</b> {{original.created}} <b>Updated:</b> {{original.updated}}</small>
+    {% if request.user == original.poster %}
+    <small><br><a href="/posts/item_id={{original.id}}/edit">Edit post</a> <a href="/posts/item_id={{original.id}}/delete">Delete post</a></small>
+    {% endif %}
+</div>
+<div>
+    <h4><a href="/posts/item_id={{original.id}}/reply">Post a reply</a></h4>
+</div>
+<h3>Replies:</h3>
+<hr>
+{% for item in replies %}
+<div class="box_reply">
+    <p>@{{item.poster}}</p>
+    <div class="box_basic"><p>
+        {{item.body}}</p>
+    </div>        
+    <small>{{item.created}}</small>
+    {% if request.user == item.poster %}
+    <!-- Since replies have absolute IDs rather than as children of an original posts, links get a bit weird -->
+    <small><br><a href="/posts/reply_id={{item.id}}/edit">Edit reply</a> <a href="/posts/reply_id={{item.id}}/delete">Delete reply</a></small>
+    {% endif %}
+    <hr>
+</div>
+{% endfor %}
+<div>
+    <h4><a href="/posts">Back to the user posts page</a></h4>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+.box_basic {
+    border:1px solid black;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+.navbar {
+    background-color: aliceblue;
+    text-align: center;
+}

@@ -1,0 +1,11 @@
+<div class="navbar">
+    <!-- URLs can also be done by name using {#% url '...' %#} -->
+    <a href="/"><h1>Silly Navbar Logo</h1></a>
+    <h5><a href="/admin/">Admin page (for conveniece only, remove later)</a></h5>
+    {% if request.user.is_authenticated %}
+    <h5>Hello, {{request.user}}! <a href="/logout/">(Logout)</a></h5>
+    {% else %}
+    <h5><a href="/login/">Login</a></h5>
+    {% endif %}
+</div>
+<hr>

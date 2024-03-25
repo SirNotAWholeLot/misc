@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Test Django Project</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    {% load static %}
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'css/main.css' %}"">
+    <!-- script src='main.js'></script-->
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <!-- These arcane runes are a standard way to show Django flash messages -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <!-- Main content block -->
+    <div style="padding-left:20px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

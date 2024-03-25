@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>Roger Man</h1>
+<p>A very simple thing that displays a database entry</p>
+<h4>Make Roger Man say:</h4>
+<div class="box_basic">
+    {% for item in rogers_lines %}
+    <h5><a href="/roger_man/item_id={{item.id}}">{{item.name}}</a></h5>
+    {% endfor %}
+</div>
+<div>
+    <h4><a href="/roger_man/create">Create a new response entry</a></h4>
+</div>
+
+{% endblock content %}

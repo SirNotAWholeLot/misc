@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h1>User posts</h1>
+<p>A list of posts made by users</p>
+<hr>
+{% for item in posts %}
+<div class="box_post">
+    <h4><a href="/posts/item_id={{item.id}}">{{item.title}}</a></h4>
+    <small><b>By:</b> {{item.poster}}</small>
+    <div class="box_basic">
+        <p>{{item.short_body}}</p>
+    </div>
+    <p>Replies: {{item.num_replies}}</p>
+    <small><b>Created:</b> {{item.created}} <b>Updated:</b> {{item.updated}}</small>
+    <hr>
+</div>
+{% endfor %}
+<div>
+    <h4><a href="/posts/create">Create a new post</a></h4>
+</div>
+
+{% endblock content %}
