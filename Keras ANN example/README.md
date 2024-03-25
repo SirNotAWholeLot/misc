@@ -1,3 +1,4 @@
-An up-to-date example of a standalone MLP FFBPNN of the kind that I use in my work.
+Recent examplea of MLP FFBPNN of the kind that I used in my work.
 
-Does not feature automated hyperparameter optimization or manual testing of a trained model, instead written to plot learning curves for a customizable singluar configuration.
+Standalone version does not feature automated hyperparameter optimization or manual testing of a trained model, instead written to plot learning curves for a customizable singluar configuration.
+The full version features grid search and random search hyperparameter optimization as well as plotters and some extra variations for testing.

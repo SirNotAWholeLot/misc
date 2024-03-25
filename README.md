@@ -2,5 +2,6 @@
 Various miscellaneous projects and experimental stuff to show off what I can do (to an extent).
 
 To add:
-- ANN example with HPO (non-patented?)
+- CNN example
 - More Qt examples
+- Make a web version of the GI Hypercarry Optimizer
