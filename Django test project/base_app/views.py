@@ -10,7 +10,7 @@ from .forms import Form_Roger_preprep_line, Form_Post_op, Form_Post_reply
 
 # Create your views here.
 
-def login_page(request): # 'login' is already a function
+def login_page(request): # 'login' is already a function in django.contrib.auth
     variant = 'login'
     if request.user.is_authenticated:
         return redirect('/')
