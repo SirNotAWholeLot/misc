@@ -2,19 +2,22 @@
 {% block content %}
 
 <h1>To do:</h1>
-<h3>{{objective.name}}</h3>
-<p>{{objective.description}}</p>
-<small>Created: {{objetive.created|time}} Updated: {{objective.updated}}</small>
+<div class="box_basic">
+    <h3>{{objective.name}}</h3>
+    <p>{{objective.description}}</p>
+    <small><b>Created:</b> {{objetive.created}} <b>Updated:</b> {{objective.updated}}</small>
+</div>
 <h3>Phases:</h3>
+<hr>
 {% for item in phases %}
-    <div class="box_basic">
+    <div class="box_phase">
     <h4>{{item.name}}</h4>
-    <p>{{item.short_desc}}</p>    
+    <p>{{item.description}}</p>
+    <hr>
 </div>
 {% endfor %}
 <div>
     <h5><a href="/todo">Back to Todo list</a></h5>
 </div>
-
 
 {% endblock content %}
