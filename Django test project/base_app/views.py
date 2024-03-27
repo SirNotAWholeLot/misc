@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Roger_preprep_line, Todo_obj, Todo_phase, Post_op, Post_reply
 from .forms import Form_Roger_preprep_line, Form_Post_op, Form_Post_reply
+from django.db.models import Q
 
 # Create your views here.
 
 def login_page(request): # 'login' is already a function in django.contrib.auth
     variant = 'login'
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -24,7 +25,7 @@ def login_page(request): # 'login' is already a function in django.contrib.auth
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # This method itself does not require authentification
-            return redirect('/')
+            return redirect('home')
         else:
             messages.error(request, "Username or password is incorrect")
     context = {'variant': variant}
@@ -32,7 +33,7 @@ def login_page(request): # 'login' is already a function in django.contrib.auth
 
 def logout_page(request):
     logout(request)
-    return redirect('/')
+    return redirect('home')
 
 def register_page(request):
     variant = 'register'
@@ -43,7 +44,7 @@ def register_page(request):
             # Can do stuff with the user credentials here if required
             user.save()
             login(request, user)
-            return redirect('/')
+            return redirect('home')
         else:
             messages.error(request, "Error registering user")
     context = {'variant': variant, 'form': UserCreationForm()}
@@ -67,19 +68,22 @@ def roger_create_response(request):
         form = Form_Roger_preprep_line(request.POST)
         if form.is_valid(): # Filled out properly? Save and return to the menu
             form.save()
-            return redirect('Roger Man')
+            return redirect('roger')
     return render(request, 'base_app/roger_form.html', context)
 
 def todo_list(request):
     context = {'objectives': Todo_obj.objects.all()}
     return render(request, 'base_app/todo_list.html', context)
 
-def todo_obj(request, pk): # Specific objective page fetches the phases for that objective
+def todo_objective(request, pk): # Specific objective page fetches the phases for that objective
     context = {'objective': Todo_obj.objects.get(id=pk), 'phases': Todo_phase.objects.filter(objective__id=pk)}
     return render(request, 'base_app/todo_obj.html', context)
 
 def posts_list(request):
-    context = {'posts': Post_op.objects.all()}
+    q = request.GET.get('q') # Get the parameters passed in the URL through the search function
+    if q == None: q = '' # Empty filter works like this
+    posts = Post_op.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    context = {'posts': posts}
     return render(request, 'base_app/posts_list.html', context)
 
 def posts_post(request, pk):
@@ -87,7 +91,7 @@ def posts_post(request, pk):
     context = {'original': Post_op.objects.get(id=pk), 'replies': Post_reply.objects.filter(original__id=pk)}
     return render(request, 'base_app/posts_post.html', context)
 
-@login_required(login_url='Login') # Decorators are a new thing for me
+@login_required(login_url='login') # Decorators are a new thing for me
 def post_create_op(request):
     context = {'form': Form_Post_op()}
     if request.method == 'POST':
@@ -97,16 +101,16 @@ def post_create_op(request):
             filled.poster = request.user
             filled.participants.add(request.user) # Automatically adding OP as a 'participant'
             filled.save()
-            return redirect('/posts/item_id=' + str(filled.id)) # Should redirect to the newly created post page
+            return redirect('post_post', pk=filled.id) # Should redirect to the newly created post page
     return render(request, 'base_app/posts_op_form.html', context)
 
-@login_required(login_url='Login')
+@login_required(login_url='login')
 def post_edit_op(request, pk):
     post = Post_op.objects.get(id=pk)
     context = {'post': post, 'form': Form_Post_op(instance=post)}
     if request.user != post.poster: # Admins should be able to bypass this
         messages.error(request, "You do not have the rights for this")
-        return redirect('/posts/item_id=' + str(pk))
+        return redirect('post_post', pk=pk)
     if request.method == 'POST':
         form = Form_Post_op(request.POST, instance=post)
         if form.is_valid():
@@ -114,22 +118,22 @@ def post_edit_op(request, pk):
             #filled.poster = request.user
             #filled.save()
             form.save()
-            return redirect('User posts')
+            return redirect('post_list')
     return render(request, 'base_app/posts_op_form.html', context)
 
-@login_required(login_url='Login')
+@login_required(login_url='login')
 def post_delete_op(request, pk):
     post = Post_op.objects.get(id=pk)
     context = {'object':Post_op.objects.get(id=pk)}
     if request.user != post.poster:
         messages.error(request, "You do not have the rights for this")
-        return redirect('/posts/item_id=' + str(pk))
+        return redirect('post_post', pk=pk)
     if request.method == 'POST':
         post.delete()
-        return redirect('/posts')
+        return redirect('post_list')
     return render(request, 'base_app/form_delete.html', context)
 
-@login_required(login_url='Login')
+@login_required(login_url='login')
 def post_create_reply(request, pk):
     original = Post_op.objects.get(id=pk)
     context = {'original': original, 'form': Form_Post_reply()} # The op ID should be automatically given to the reply creator
@@ -141,34 +145,35 @@ def post_create_reply(request, pk):
             filled.original = original
             original.participants.add(request.user) # Automatically adding the replier as a 'participant'
             filled.save()
-            return redirect('/posts/item_id=' + str(pk)) # Should return to the post page
+            return redirect('post_post', pk=pk) # Should return to the post page
     return render(request, 'base_app/posts_reply_form.html', context)
 
-@login_required(login_url='Login')
+@login_required(login_url='login')
 def post_edit_reply(request, pk):
     post = Post_reply.objects.get(id=pk)
     context = {'post': post, 'form': Form_Post_reply(instance=post)}
     if request.user != post.poster:
         messages.error(request, "You do not have the rights for this")
-        return redirect('/posts/item_id=' + str(post.original.id)) # Redirect back to the post page since replies don't have their own pages (yet)
+        return redirect('post_post', pk=post.original.id) # Redirect back to the post page since replies don't have their own pages (yet)
     if request.method == 'POST':
         form = Form_Post_reply(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('/posts/item_id=' + str(post.original.id))
+            return redirect('post_post', pk=post.original.id)
         else:
             messages.error(request, "Something went wrong with the form")
     return render(request, 'base_app/posts_reply_form.html', context)
 
-@login_required(login_url='Login')
+@login_required(login_url='login')
 def post_delete_reply(request, pk):
     post = Post_reply.objects.get(id=pk)
     op_id = post.original.id
     context = {'object':Post_reply.objects.get(id=pk)}
     if request.user != post.poster:
         messages.error(request, "You do not have the rights for this")
-        return redirect('/posts/item_id=' + str(op_id))
+        return redirect('post_post', pk=op_id)
     if request.method == 'POST':
         post.delete()
-        return redirect('/posts/item_id=' + str(op_id))
+        # To add: if no replies by this user remain under this post (and they are not the OP), remove them from participants
+        return redirect('post_post', pk=op_id)
     return render(request, 'base_app/form_delete.html', context)

@@ -3,10 +3,22 @@
 
 <h1>User posts</h1>
 <p>A list of posts made by users</p>
+<div>
+    <form method="GET" action="{% url 'post_list' %}" style="display:inline;">
+        <!-- name="q" allows for a variable being passed through the URL-->
+        <input type="text" name="q" placeholder="Seach posts..." />
+    </form>
+    {% if q != '' %}
+    <a href="{% url 'post_list' %}">Show all</a>
+    {% endif %}
+</div>
+<div>
+    <h4><a href="{% url 'post_create' %}">Create a new post</a></h4>
+</div>
 <hr>
 {% for item in posts %}
 <div class="box_post">
-    <h4><a href="/posts/item_id={{item.id}}">{{item.title}}</a></h4>
+    <h4><a href="{% url 'post_post' item.id %}">{{item.title}}</a></h4>
     <small><b>By:</b> {{item.poster}}</small>
     <div class="box_basic">
         <p>{{item.short_body}}</p>
@@ -16,8 +28,5 @@
     <hr>
 </div>
 {% endfor %}
-<div>
-    <h4><a href="/posts/create">Create a new post</a></h4>
-</div>
 
 {% endblock content %}

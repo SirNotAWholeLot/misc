@@ -6,11 +6,11 @@
 <h4>Make Roger Man say:</h4>
 <div class="box_basic">
     {% for item in rogers_lines %}
-    <h5><a href="/roger_man/item_id={{item.id}}">{{item.name}}</a></h5>
+    <h5><a href="{% url 'roger_response' item.id %}">{{item.name}}</a></h5>
     {% endfor %}
 </div>
 <div>
-    <h4><a href="/roger_man/create">Create a new response entry</a></h4>
+    <h4><a href="{% url 'roger_create' %}">Create a new response entry</a></h4>
 </div>
 
 {% endblock content %}

@@ -2,4 +2,10 @@ A test Django project. Work in progress, features will be added as I come up wit
 
 Current features:
 - Roger Man: display a database entry through a link, create new db entries, display links automatically.
-- Notes: display db entries of notes.
+- To-do notes: display db entries of notes.
+- Basic user login and registration.
+- User posts: create, edit, delete posts, reply to them, edit, delete replies, search posts.
+
+To add:
+- Django version of the weather fetcher
+- Web version of the GI hypercarry optimizer

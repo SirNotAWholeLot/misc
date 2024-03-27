@@ -10,11 +10,11 @@
     </div>    
     <small><b>Created:</b> {{original.created}} <b>Updated:</b> {{original.updated}}</small>
     {% if request.user == original.poster %}
-    <small><br><a href="/posts/item_id={{original.id}}/edit">Edit post</a> <a href="/posts/item_id={{original.id}}/delete">Delete post</a></small>
+    <small><br><a href="{% url 'post_edit' original.id %}">Edit post</a> <a href="{% url 'post_delete' original.id %}">Delete post</a></small>
     {% endif %}
 </div>
 <div>
-    <h4><a href="/posts/item_id={{original.id}}/reply">Post a reply</a></h4>
+    <h4><a href="{% url 'post_reply_create' original.id %}">Post a reply</a></h4>
 </div>
 <h3>Replies:</h3>
 <hr>
@@ -27,7 +27,7 @@
     <small>{{item.created}}</small>
     {% if request.user == item.poster %}
     <!-- Since replies have absolute IDs rather than as children of an original posts, links get a bit weird -->
-    <small><br><a href="/posts/reply_id={{item.id}}/edit">Edit reply</a> <a href="/posts/reply_id={{item.id}}/delete">Delete reply</a></small>
+    <small><br><a href="{% url 'post_reply_edit' item.id %}">Edit reply</a> <a href="{% url 'post_reply_delete' item.id %}">Delete reply</a></small>
     {% endif %}
     <hr>
 </div>

@@ -10,7 +10,7 @@
         <input type="password" name="password" placeholder="Password">
         <input type="submit" value="Log in">
     </form>
-    <p>Don't have an account? <a href="/register/">Register</a></p>    
+    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>    
 </div>
 {% else %}
 <h1>Register</h1>
@@ -20,7 +20,7 @@
         {{form.as_p}}
         <input type="submit" value="Register">
     </form>
-    <p>Already have an account? <a href="/login/">Login</a></p>
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
 </div>
 {% endif %}
 
