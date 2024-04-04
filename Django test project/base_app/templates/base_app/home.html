@@ -2,12 +2,12 @@
 {% block content %}
 
 <h1>Home page</h1>
-<p>Nothing interesting here yet but the links, and the whole site obviously lacks almost any styling.</p>
-<h3>Content:</h3>
 <div class="box_basic">
-    <h5><a href="{% url 'roger' %}">Roger Man</a></h5>
-    <h5><a href="{% url 'todo_list' %}">To do</a></h5>
-    <h5><a href="{% url 'post_list' %}">User posts</a></h5>
+    <p>This is a test website page made as a learning project for both Django framework and HTML. Not very feature-rich at the moment, but things are being added.</p>
+    <h5>Current features include:</h5>
+    <p>- <a href="{% url 'roger' %}">Roger Man</a></p>
+    <p>- <a href="{% url 'todo_list' %}">To do list</a></p>
+    <p>- <a href="{% url 'post_list' %}">User posts</a></p>
 </div>
 
 {% endblock content %}

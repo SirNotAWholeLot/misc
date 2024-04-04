@@ -2,11 +2,11 @@
 {% block content %}
 
 <h1>Roger Man</h1>
-<p>A very simple thing that displays a database entry</p>
+<p>A very simple thing that displays a database entry.</p>
 <h4>Make Roger Man say:</h4>
 <div class="box_basic">
     {% for item in rogers_lines %}
-    <h5><a href="{% url 'roger_response' item.id %}">{{item.name}}</a></h5>
+    <p><a href="{% url 'roger_response' item.id %}">{{item.name}}</a></p>
     {% endfor %}
 </div>
 <div>

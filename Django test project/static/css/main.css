@@ -7,5 +7,17 @@
 }
 .navbar {
     background-color: aliceblue;
-    text-align: center;
+    text-align: left;
+}
+.navbar h1,
+.navbar h3,
+.navbar h5 {
+    display: inline;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+.navbar_container {
+    display: flex;
+    align-items: center;
 }
