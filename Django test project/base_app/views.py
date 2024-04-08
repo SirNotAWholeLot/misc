@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Roger_preprep_line, Todo_obj, Todo_phase, Post_op, Post_reply
+from .models import Roger_preprep_line, Todo_obj, Todo_phase, Post_op, Post_reply, Wf_city
 from .forms import Form_Roger_preprep_line, Form_Post_op, Form_Post_reply
 from django.db.models import Q
 
@@ -168,7 +168,7 @@ def post_edit_reply(request, pk):
 def post_delete_reply(request, pk):
     post = Post_reply.objects.get(id=pk)
     op_id = post.original.id
-    context = {'object':Post_reply.objects.get(id=pk)}
+    context = {'object': Post_reply.objects.get(id=pk)}
     if request.user != post.poster:
         messages.error(request, "You do not have the rights for this")
         return redirect('post_post', pk=op_id)
@@ -177,3 +177,12 @@ def post_delete_reply(request, pk):
         # To add: if no replies by this user remain under this post (and they are not the OP), remove them from participants
         return redirect('post_post', pk=op_id)
     return render(request, 'base_app/form_delete.html', context)
+
+def weather_fetcher(request):
+    cities_list = Wf_city.objects.all()
+    cities_json = {}
+    for city in cities_list:
+        cities_json.update({str(city.id): {'name': city.name, 'link': city.link}})
+    #print(cities_json)
+    context = {'cities_list': cities_list, 'cities_json': cities_json}
+    return render(request, 'base_app/weather_fetcher.html', context)

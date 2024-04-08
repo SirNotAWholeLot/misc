@@ -19,4 +19,5 @@ urlpatterns = [
     path('posts/item_id=<str:pk>/delete/', views.post_delete_op, name='post_delete'),
     path('posts/reply_id=<str:pk>/edit/', views.post_edit_reply, name='post_reply_edit'),
     path('posts/reply_id=<str:pk>/delete/', views.post_delete_reply, name='post_reply_delete'),
+    path('weather_fetcher/', views.weather_fetcher, name='weather_fetcher'),
 ]

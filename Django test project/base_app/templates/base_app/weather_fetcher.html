@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div>
+    <!--script src="js/functions.js"></script>
+    <script src="js/cities_list.js"></script-->
+    {{ cities_json|json_script:"cities_json" }}
+    <script>
+        const cities_json = JSON.parse(document.getElementById('cities_json').textContent);
+    </script>
+    <h1>Weather fetcher</h1>
+    <h3>This page does two things:</h3>
+    <p>1) Fetch data from a public API</p>
+    <p>2) Dynamically update the page to display said data</p>
+    <p>It can be updated to have search and stuff, but that would require a big database since the source does weather by coordinates.</p>
+    <p>I already made this with pure Javascript, now I want it to work in Django/AJAX context.</p>
+    <h5>(Styling is currently broken for some reason or another as I haven't finished porting it properly)</h5>
+    <hr>
+    <h2>Display weather in:</h2>
+    <div id="cont_weather">
+        <!--This makes me use two different variables for cities, one that Django templates understand and one that JS understands-->
+        {% for item in cities_list %}
+        <div class="l_city">
+            <button id="button_{{item.name}}" class="b_city">{{item.name}}</button>
+            <script>
+                // This button should call the relevant Django view to construct and render a display element and then dynamically update the page with it
+                document.getElementById("button_{{item.name}}").addEventListener("click", function(){ load_city(cities_json['{{item.id}}']); }, false);
+
+                function load_city(city){
+                    field = document.getElementById("field_" + city['name']);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", city['link'], true);
+                    // Can also be done somewhat simplier through xhr.onload, xhr.onprogress and xhr.onerror
+                    xhr.onreadystatechange = function(){
+                        if(this.readyState == 1 && this.status == 200){
+                            field.innerHTML = '<span>Temperature: fetching... Humidity: fetching...</span>';
+                        }
+                        if(this.readyState == 4 && this.status == 200){
+                            var response = JSON.parse(this.responseText);
+                            var weather = '<span>Temperature: ' + response.current.temperature_2m + ' ' + response.current_units.temperature_2m + ', ' +
+                                'Humidity: ' + response.current.relative_humidity_2m + ' ' + response.current_units.relative_humidity_2m + '</span>';
+                            field.innerHTML = weather;
+                        }
+                        if(this.status != 200){
+                            field.innerHTML = '<span>Request error!</span>';
+                        }
+                    }
+                    xhr.send();
+                }
+            </script>
+            <div id="field_{{item.name}}">
+                <span class="p_city">...</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

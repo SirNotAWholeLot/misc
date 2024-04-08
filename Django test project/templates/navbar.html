@@ -6,6 +6,7 @@
         <h3><a href="{% url 'roger' %}">Roger Man</a></h3>
         <h3><a href="{% url 'todo_list' %}">To do</a></h3>
         <h3><a href="{% url 'post_list' %}">User posts</a></h3>
+        <h3><a href="{% url 'weather_fetcher' %}">Weather fetcher</a></h3>
     </div>
     <div>
         {% if request.user.is_authenticated %}

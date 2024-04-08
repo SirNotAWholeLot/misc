@@ -81,3 +81,11 @@ class Post_reply(models.Model): # Reply: tied to an opening post
     
     def short_body(self):
         return self.body if len(self.body) <= 50 else (self.body[0:46] + '...')
+    
+class Wf_city(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    link = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
