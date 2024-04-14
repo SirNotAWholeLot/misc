@@ -14,7 +14,6 @@
     <p>2) Dynamically update the page to display said data</p>
     <p>It can be updated to have search and stuff, but that would require a big database since the source does weather by coordinates.</p>
     <p>I already made this with pure Javascript, now I want it to work in Django/AJAX context.</p>
-    <h5>(Styling is currently broken for some reason or another as I haven't finished porting it properly)</h5>
     <hr>
     <h2>Display weather in:</h2>
     <div id="cont_weather">
@@ -48,8 +47,8 @@
                     xhr.send();
                 }
             </script>
-            <div id="field_{{item.name}}">
-                <span class="p_city">...</span>
+            <div id="field_{{item.name}}" class="s_city">
+                <span>...</span>
             </div>
         </div>
         {% endfor %}

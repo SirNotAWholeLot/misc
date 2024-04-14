@@ -22,9 +22,10 @@
     align-items: center;
 }
 #cont_weather {
-    border: 2px solid grey;
+    border: 1px solid black;
     padding: 10px 10px;
     margin: 0;
+    width: fit-content;
 }
 .l_city {display: block; zoom: 1; font-size: 12px;}
 .b_city {
@@ -40,7 +41,7 @@
 }
 .b_city:not(:last-child) {border-bottom: none;}
 .b_city:hover {background-color: #888888;}
-.p_city {
+.s_city {
     background-color: #ffffff;
     border: 1px solid #cccccc;
     color: black;
