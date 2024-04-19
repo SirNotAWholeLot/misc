@@ -2,7 +2,8 @@
 {% block content %}
 
 <h1>Roger Man</h1>
-<p>A very simple thing that displays a database entry.</p>
+<p>A very simple thing that displays a database entry. Features an access <a href="{% url 'api_routes' %}">API</a>.</p>
+<p>CORS currently doesn't want to work for a reason I fail to understand.</p>
 <h4>Make Roger Man say:</h4>
 <div class="box_basic">
     {% for item in rogers_lines %}
