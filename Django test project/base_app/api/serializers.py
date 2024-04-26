@@ -5,3 +5,8 @@ class Serializer_Roger_preprep_line(ModelSerializer):
     class Meta:
         model = Roger_preprep_line
         fields = '__all__'
+
+class Serializer_Roger_line_name(ModelSerializer):
+    class Meta:
+        model = Roger_preprep_line
+        fields = ['id', 'name']
