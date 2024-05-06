@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
-    path('', views.get_routes, name='api_routes'),
+    path('', views.get_routes, name='api_routes'), # Currently only the about API page and Roger Man API exist
     path('roger_man/', views.get_roger_lines),
     path('roger_man/item_id=<str:pk>/', views.get_roger_response),
     path('roger_man/names/', views.get_roger_line_names),

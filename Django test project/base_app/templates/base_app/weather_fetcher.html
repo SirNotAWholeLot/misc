@@ -4,6 +4,7 @@
 <div>
     <!--script src="js/functions.js"></script>
     <script src="js/cities_list.js"></script-->
+    <!-- Translating the variable from Django to be used in JS code on this page-->
     {{ cities_json|json_script:"cities_json" }}
     <script>
         const cities_json = JSON.parse(document.getElementById('cities_json').textContent);
@@ -28,23 +29,23 @@
                 function load_city(city){
                     field = document.getElementById("field_" + city['name']);
                     var xhr = new XMLHttpRequest();
-                    xhr.open("GET", city['link'], true);
+                    xhr.open("GET", city['link'], true); // Initialize request but do nothing with it yet
                     // Can also be done somewhat simplier through xhr.onload, xhr.onprogress and xhr.onerror
-                    xhr.onreadystatechange = function(){
-                        if(this.readyState == 1 && this.status == 200){
+                    xhr.onreadystatechange = function(){ // Decide what we want to do with it
+                        if(this.readyState == 1 && this.status == 200){ // Responce is ok, things are loading
                             field.innerHTML = '<span>Temperature: fetching... Humidity: fetching...</span>';
                         }
-                        if(this.readyState == 4 && this.status == 200){
+                        if(this.readyState == 4 && this.status == 200){ // Responce is ok, things are loaded!
                             var response = JSON.parse(this.responseText);
                             var weather = '<span>Temperature: ' + response.current.temperature_2m + ' ' + response.current_units.temperature_2m + ', ' +
                                 'Humidity: ' + response.current.relative_humidity_2m + ' ' + response.current_units.relative_humidity_2m + '</span>';
                             field.innerHTML = weather;
                         }
-                        if(this.status != 200){
+                        if(this.status != 200){ // Responce is not ok
                             field.innerHTML = '<span>Request error!</span>';
                         }
                     }
-                    xhr.send();
+                    xhr.send(); // This actually sends the request and does stuff with the response that we decided on
                 }
             </script>
             <div id="field_{{item.name}}" class="s_city">

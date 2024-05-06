@@ -84,8 +84,8 @@ class Post_reply(models.Model): # Reply: tied to an opening post
     
 class Wf_city(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    link = models.CharField(max_length=300)
+    name = models.CharField(max_length=100) # Displayed name
+    link = models.CharField(max_length=300) # Link to the API for this city - pre-made manually because the site works by coordinates
 
     def __str__(self):
         return self.name

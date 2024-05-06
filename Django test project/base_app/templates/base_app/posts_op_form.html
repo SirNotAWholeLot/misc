@@ -4,6 +4,7 @@
 <h1>User posts</h1>
 <h3>Create a new post</h3>
 <div>
+    <!-- The form is made without any extra formatting, just with default Django output -->
     <form method="POST" action="">
         {% csrf_token %}
         {{form.as_p}}

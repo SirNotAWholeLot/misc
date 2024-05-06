@@ -1,6 +1,6 @@
 <div class="navbar">
     <div class="navbar_container">
-        <!-- URLs can also be done by name using {#% url '...' %#} -->
+        <!-- URLs can be done directly or by name using {#% url '...' %#} -->
         {% load static %}
         <a href="/"><img src="{% static 'images/logo_placeholder.png' %}" title="Silly Navbar Logo" /></a>
         <h3><a href="{% url 'roger' %}">Roger Man</a></h3>

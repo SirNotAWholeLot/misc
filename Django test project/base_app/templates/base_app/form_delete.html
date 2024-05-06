@@ -1,8 +1,8 @@
 {% extends 'main.html' %}
 {% block content %}
+<!-- A universal form for deleting database object, ideally it would need to remind the user of the type of the object too -->
 
-<h1>Post:</h1>
-
+<h1>Delete</h1>
 <form method="POST" action="">
     {% csrf_token %}
     <h4>Delete "{{object}}"?</h4>

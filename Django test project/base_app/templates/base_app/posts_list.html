@@ -6,7 +6,7 @@
 <div>
     <form method="GET" action="{% url 'post_list' %}" style="display:inline;">
         <!-- name="q" allows for a variable being passed through the URL-->
-        <input type="text" name="q" placeholder="Seach posts..." />
+        <input type="text" name="q" placeholder="Search posts..." />
     </form>
     {% if q != '' %}
     <a href="{% url 'post_list' %}">Show all</a>
