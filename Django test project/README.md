@@ -5,7 +5,7 @@ Current features:
 - To-do notes: display db entries of notes.
 - Basic user login and registration.
 - User posts: create, edit, delete posts, reply to them, edit, delete replies, search posts.
+- Weather Fetcher: fetch from external API and display current weather in a preset list of cities
 
 To add:
-- Django version of the weather fetcher
 - Web version of the GI hypercarry optimizer
