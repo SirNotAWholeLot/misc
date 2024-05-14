@@ -7,5 +7,6 @@ Current features:
 - User posts: create, edit, delete posts, reply to them, edit, delete replies, search posts.
 - Weather Fetcher: fetch from external API and display current weather in a preset list of cities
 
-To add:
+To do:
+- Add actual CSS styling
 - Web version of the GI hypercarry optimizer
