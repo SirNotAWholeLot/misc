@@ -51,3 +51,18 @@
     font-size: 16px;
     display: inline;
 }
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:active {
+    text-decoration: underline;
+    color: red;
+}
+a:visited {
+    color: grey;
+}
