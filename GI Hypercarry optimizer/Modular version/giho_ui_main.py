@@ -6,6 +6,8 @@ from giho_ui_widgets import *
 from giho_ui_optimizers import *
 
 class Widget_genshin_buff_opt_main(QtWidgets.QWidget):
+    '''Main UI widget that you see when you launch the app normally.
+    Contains all the controls for everything and calls the internal structure into being.'''
     def __init__(self):
         super(Widget_genshin_buff_opt_main, self).__init__()
         # Alternative, no-preload way to pick enabled hypercarries and buffers - by names
@@ -82,7 +84,7 @@ class Widget_genshin_buff_opt_main(QtWidgets.QWidget):
         self.enemy_res = float(self.box_res.text())
     
     def get_hc_widget(self, hc_name):
-        # Check if this hypercarry widget has already been made, make it and insert it into the hypercarry QStackedLayout if not, return it
+        '''Check if this hypercarry widget has already been made, make it and insert it into the hypercarry QStackedLayout if not, return it.'''
         if self.hc_widgets[hc_name].character.name == 'None':
             old_w = self.hc_widgets[hc_name]
             self.hc_widgets[hc_name] = Widget_hypercarry(HC_TYPES[hc_name])
@@ -98,14 +100,15 @@ class Widget_genshin_buff_opt_main(QtWidgets.QWidget):
             self.layout_hc.setCurrentIndex(tuple(self.hc_widgets.keys()).index(hc_name))
     
     def get_buffer_widget(self, buffer_name):
-        # If the buffer in question is a resonator, just make a new one
+        '''Check if this buffer widget has already been made, make it if not, return it if yes.
+        If the buffer in question is a resonator, just make a new one.'''
         if 'Resonator:' in buffer_name: return Widget_resonator(buffer_name.replace('Resonator: ', ''))
-        # Check if this buffer widget has already been made, make it if not, return it if yes
         if self.buffer_widgets[buffer_name].character.name == 'None':
             self.buffer_widgets[buffer_name] = Widget_buffer(BUFFER_TYPES[buffer_name])
         return self.buffer_widgets[buffer_name]
         
     def switch_buffers(self):
+        '''Switches out active buffer widgets in the main widget. More complicated to do than it sounds.'''
         num_changed = self.boxes_buffers.index(self.sender()) # Looks stupid, but apparently it's not possible to send an argument with a connect() without anonymous functions
         buffer_names = (self.boxes_buffers[0].currentText(), self.boxes_buffers[1].currentText(), self.boxes_buffers[2].currentText())
         # I can't figure out a way to selectively disable and reenable elements in a QComboBox at my current Qt level, so here's a workaround
@@ -134,8 +137,9 @@ class Widget_genshin_buff_opt_main(QtWidgets.QWidget):
         self.layout_optimizers.setCurrentIndex(opt_index)
 
     def get_current_buffers(self):
-        # Return a tuple of currently selected widget_buffer.character's
-        # These arcane runes send the character objects placed within the widgets put in the frames by buffer selectors to the hypercarry object. If there is no buffer, the placeholder sends a 'None'
+        '''Return a tuple of currently selected widget_buffer.character's.'''
+        # These arcane runes send the character objects placed within the widgets put in the frames by buffer selectors to the hypercarry object
+        # If there is no buffer, the placeholder sends a 'None'
         return (self.layouts_buffers[0].itemAt(1).widget().character, self.layouts_buffers[1].itemAt(1).widget().character, self.layouts_buffers[2].itemAt(1).widget().character)
 
     def calculate_setup(self):

@@ -1,5 +1,5 @@
 def res_mult(res):
-    # Using the formulas from the wiki
+    '''Recalculating resistance multipliers using formulas from the wiki.'''
     if res > 75:
         return 1/(4*res/100 + 1)
     elif res > 0:
@@ -14,6 +14,13 @@ def get_elements_in_party(hypercarry, buffers):
     return elements        
 
 def calculate_output(enemy_res, hypercarry, weapon=None, artifacts=None, buffers=None):
+    '''The main piece - calculates theoretical damage output of the hypercarry.
+    First calculates internal stats and resonances,
+    then adds self-buffs and weapon buffs,
+    then buffs of each of the buffers in the party,
+    then applies conversions such as Hu Tao's skill,
+    then reoptimizes CV (assumingly we built it balanced for this),
+    and last applies enemy resistances.'''
     if weapon == None:
         weapon = hypercarry.weapon
     stats = hypercarry.calculate_stats(weapon = weapon, artifacts = artifacts)
@@ -45,6 +52,7 @@ def calculate_output(enemy_res, hypercarry, weapon=None, artifacts=None, buffers
     return stats['ATK']*(1 + stats['DMG']/100)*(1 + (stats['CR']/100)*(stats['CD']/100))*res_mult(enemy_res), stats
     
 def format_stats(stats):
+    '''Formats stats dictionary into a more human-readable form.'''
     stats_formatted = ''
     shred_sum = 0
     for key, value in stats.items():

@@ -5,6 +5,7 @@ from giho_calculators import *
 from giho_buffers import BUFFER_TYPES
 
 class Widget_optimize_build(QtWidgets.QWidget):
+    '''Optimizer of the hypercarry build with a given set of buffers - artifact main stats, artifact sets, weapon selection.'''
     def __init__(self, res_container, hc_container, buffers_container):
         super(Widget_optimize_build, self).__init__()
         self.res_container = res_container
@@ -27,7 +28,7 @@ class Widget_optimize_build(QtWidgets.QWidget):
         layout_main.addSpacerItem(QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding))
         
     def optimize_build(self):
-        # Calculate output for weapon and artifact (main stats only) setup variations with the current buffer configuration
+        '''Calculate output for weapon and artifact (main stats only) setup variations with the current buffer configuration'''
         hypercarry = self.hc_container.currentWidget().character
         buffers = (self.buffers_container[0].itemAt(1).widget().character, self.buffers_container[1].itemAt(1).widget().character, self.buffers_container[2].itemAt(1).widget().character)
         #
@@ -47,6 +48,7 @@ class Widget_optimize_build(QtWidgets.QWidget):
         self.label_result.setText('Best configuration is: ' + str(best[1]) + " with the output of " + "{:.1f}".format(best[0]))
     
 class Widget_optimize_buffers(QtWidgets.QWidget):
+    '''Optimizer of the buffer selection for a given hypercarry build.'''
     def __init__(self, res_container, hc_container, get_buffer_widget):
         super(Widget_optimize_buffers, self).__init__()
         self.res_container = res_container
@@ -95,7 +97,7 @@ class Widget_optimize_buffers(QtWidgets.QWidget):
         return False
 
     def optimize_buffers(self):
-        # Calculate output for buffers setup variations and update the result label with the best
+        '''Calculate output for buffers setup variations and update the result label with the best.'''
         # Ideally, the list of buffers should contain resonators relevant the HC's scalings, then buffers relevant to HC's scalings
         hypercarry = self.hc_container.currentWidget().character
         #

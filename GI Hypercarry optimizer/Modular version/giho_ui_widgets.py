@@ -5,6 +5,7 @@ from giho_hypercarries import Char_hypercarry_custom
 from giho_weapons import Weapon_custom
 
 class Widget_hypercarry(Widget_char_placeholder):
+    '''Universal widget for displaying hypercarries and giving the user control over their builds.'''
     def __init__(self, char_type = Char_hypercarry):
         super(Widget_hypercarry, self).__init__(char_type)
         layout_main = QtWidgets.QVBoxLayout(self)
@@ -110,7 +111,8 @@ class Widget_hypercarry(Widget_char_placeholder):
             else: layout_main.addWidget(item)
         layout_main.addSpacerItem(QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding))
 
-    def update_char_base(self): # This function refers to attributes that only exist for abstract hypercarry, but should only be called by an abstract hypercarry
+    def update_char_base(self):
+        '''This function refers to attributes that only exist for abstract hypercarry, but should only be called by an abstract hypercarry.'''
         self.character.element = self.widgets_stats_base[0]['box'].currentText()
         if 'HP' in self.character.scales_with: self.character.base_stats['HP'] = self.widgets_stats_base[1]['box'].value()
         if 'ATK' in self.character.scales_with: self.character.base_stats['ATK'] = self.widgets_stats_base[2]['box'].value()
@@ -140,6 +142,7 @@ class Widget_hypercarry(Widget_char_placeholder):
             item[3] = getattr(widget['box'], {'bool': 'isChecked', 'str': 'currentText', 'int': 'value', 'double': 'value'}[item[1]])()
 
 class Widget_weapon(QtWidgets.QWidget):
+    '''Universal widget for displaying weapons and giving the user control over their conditions.'''
     def __init__(self, weapon):
         super(Widget_weapon, self).__init__()
         self.weapon = weapon
@@ -215,6 +218,7 @@ class Widget_weapon(QtWidgets.QWidget):
                 return            
 
 class Widget_buffer(Widget_char_placeholder):
+    '''Universal widget for displaying buffers and giving the user control over whatever particolarities they have.'''
     def __init__(self, char_type=Char_buffer):
         super(Widget_buffer, self).__init__(char_type)
         layout = QtWidgets.QHBoxLayout(self)
@@ -231,6 +235,7 @@ class Widget_buffer(Widget_char_placeholder):
             if item[1] not in ['text', 'bold']: item[3] = getattr(widget['box'], {'bool': 'isChecked', 'str': 'currentText', 'int': 'value', 'double': 'value'}[item[1]])()
 
 class Widget_resonator(Widget_char_placeholder):
+    '''Simplified derivative of the buffer widget, fitting all elements.'''
     def __init__(self, element = 'Physical'):
         super(Widget_resonator, self).__init__(Char_buffer)
         self.character.name = 'Resonator: ' + element

@@ -2,10 +2,9 @@ from giho_utility import Char_placeholder
 from giho_base_classes import Char_buffer
 
 class Char_vv(Char_buffer):
+    '''Somebody doing a VV who is not Kazuha. Faruzan can technically hold VV, but she only buffs Anemo damage which can't be VVed so she is a separate case entirely.'''
     def __init__(self):
         super(Char_vv, self).__init__('VV provider', 'Anemo')
-        # Somebody doing a VV who is not Kazuha
-        # Faruzan can technically hold VV, but she only buffs Anemo damage which can't be VVed so she is a separate case entirely
         self.fields = (
             ['Providing elemental RES shred through 4p Viridescent Venerer swirls', 'text', None, None],
         )
@@ -17,9 +16,10 @@ class Char_vv(Char_buffer):
         if hypercarry.element in ('Pyro', 'Hydro', 'Electro', 'Cryo'): stats['shred_vv'] = 40
     
 class Char_bennett(Char_buffer):
+    '''Bennett, the true Pyro Archon. Buffs ATK additively and can also buff Pyro DMG%.
+    Default Bennett is assumed to have Base ATK of 750 (approx. lvl 90 Sapwood 90), talent level of 8, C0, and has 4p Noblesse Obligue.'''
     def __init__(self):
         super(Char_bennett, self).__init__('Bennett', 'Pyro')
-        # Default Bennett is assumed to have Base ATK of 750 (approx. lvl 90 Sapwood 90), talent level of 8, C0, and has 4p Noblesse Obligue
         self.fields = (
             ['Base ATK', 'int', (0, 9999), 750],
             ['Talent level', 'int', (1, 13), 8],
@@ -38,9 +38,10 @@ class Char_bennett(Char_buffer):
         stats['DMG'] = stats['DMG'] + (15 if self.fields[2][3] == 6 and hypercarry.element == 'Pyro' else 0)
      
 class Char_sara(Char_buffer):
+    '''Kujou Sara, Raiden Shogun's personal buffer. Buffs ATK additively and at C6 buffs Electro-only Crit DMG.
+    Default Sara is assumed to have Base ATK of 750 (approx. lvl 90 565-bow 90), talent level of 8 and no C6.'''
     def __init__(self):
         super(Char_sara, self).__init__('Sara', 'Electro')
-        # Default Sara is assumed to have Base ATK of 750 (approx. lvl 90 565-bow 90), talent level of 8 and no C6
         self.fields = (
             ['Base ATK', 'int', (0, 9999), 750],
             ['Talent level', 'int', (1, 13), 8],
@@ -58,9 +59,10 @@ class Char_sara(Char_buffer):
         stats['CV'] = stats['CV'] + (60 if self.fields[2][3] == True and hypercarry.element == 'Electro' else 0)
 
 class Char_furina(Char_buffer):
+    '''Mademoiselle Furina, unmatched in universality. Ramping-up buff provides massive DMG% to the whole party.
+    Default Furina is assumed to have average Fanfare charge percent of 75, talent level of 8 and no C1.'''
     def __init__(self):
         super(Char_furina, self).__init__('Furina', 'Hydro')
-        # Default Furina is assumed to have average Fanfare charge percent of 75, talent level of 8 and no C1
         self.fields = (
             ['Avg. Fanfare', 'int', (0, 300), 200],
             ['Talent level', 'int', (1, 13), 8],
@@ -77,9 +79,10 @@ class Char_furina(Char_buffer):
         stats['DMG'] = stats['DMG'] + self.buff_value_dmg()
 
 class Char_kazuha(Char_buffer):
+    '''Kaedahara Kazuha, master of VV. In addition to the shred provides an EM buff and swirled element DMG%.
+    Default Kazuha is expected to have 800 EM and no C2.'''
     def __init__(self):
         super(Char_kazuha, self).__init__('Kaedehara Kazuha', 'Anemo')
-        # Default Kazuha is expected to have 800 EM and no C2
         self.fields = (
             ['Elemental mastery', 'int', (0, 1999), 800],
             ['Is C2', 'bool', None, False],
@@ -99,9 +102,10 @@ class Char_kazuha(Char_buffer):
             if self.fields[2][3]: stats['shred_vv'] = 40
     
 class Char_chevreuse(Char_buffer):
+    '''Chevreuse, the glue of Electro-Pyro teams, providing a VV-like effect and some DMG% to them and only them.
+    Default Chevreuse is assumed to have 35k hp, and have 0 C6 stacks active.'''
     def __init__(self):
         super(Char_chevreuse, self).__init__('Chevreuse', 'Pyro')
-        # Default Chevreuse is assumed to have 35k hp, and have 0 C6 stacks active
         self.fields = (
             ['HP', 'int', (1, 40000), 35000],
             ['C6 stacks', 'int', (0, 3), 0]
@@ -114,14 +118,16 @@ class Char_chevreuse(Char_buffer):
         return 0.001*self.fields[0][3] + 20*self.fields[1][3]
     
     def buff(self, stats, hypercarry, weapon):
+        '''!! UNFINISHED !! Chevreuse instance cannot know if there is a Hydro resonance'''
         if set(stats['elements_in_party']) == set(('Pyro', 'Electro')):
-            stats['DMG'] = stats['DMG'] + self.buff_value_dmg() # !! UNFINISHED !! Chevreuse instance cannot know if there is a Hydro resonance
+            stats['DMG'] = stats['DMG'] + self.buff_value_dmg()
             stats['shred_chevreuse'] = 40
 
 class Char_zhongli(Char_buffer):
+    '''Zhongli, Morax, Rex Lapis, the Shield Archon. The shield has minor shred and can trigger ToM consistently.
+    Default Zhongli provides his shield and holds 4p Tenacity of the Millelith'''
     def __init__(self):
         super(Char_zhongli, self).__init__('Zhongli', 'Geo')
-        # Default Zhongli provides his shield and holds 4p Tenacity of the Millelith
         self.fields = (
             ['Holds 4p Tenacity of the Millelith', 'bool', None, True],
         )
@@ -134,9 +140,10 @@ class Char_zhongli(Char_buffer):
         stats['shred_zhongli'] = 20
     
 class Char_gorou(Char_buffer):
+    '''Gorou, Itto's best friend. Provides a DEF buff, minor Geo DMG% and can give some Crit DMG.
+    Default Gorou is assumed to have talent level of 8, no C6, and no 4p Noblesse Obligue'''
     def __init__(self):
         super(Char_gorou, self).__init__('Gorou', 'Geo')
-        # Default Gorou is assumed to have talent level of 8, no C6, and no 4p Noblesse Obligue
         self.fields = (
             ['Talent level', 'int', (1, 13), 8],
             ['Is C6', 'bool', None, False],

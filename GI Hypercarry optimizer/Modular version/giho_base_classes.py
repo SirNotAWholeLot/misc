@@ -1,6 +1,7 @@
 from giho_utility import Char_placeholder
 
 class Char_hypercarry(Char_placeholder):
+    '''Base hypercarry class. Includes base functionality and serves as a template for everyone else. If this was a real character, it would be a one-star or something.'''
     def __init__(self, name='Basic hypercarry', element='Physical', scales_with=('ATK', 'DMG', 'CV')):
         super(Char_hypercarry, self).__init__(name, element)
         self.scales_with = scales_with # What stats do we need to show on the widget? Full list of options is  ('HP', 'ATK', 'DEF', 'EM', 'ER', 'DMG', 'CV')
@@ -62,16 +63,18 @@ class Char_hypercarry(Char_placeholder):
         )
         
     def base_atk(self, weapon=None):
+        '''Returns the character's base ATK, which is used in buff calculations and such.
+        Note: this one function - or rather the requirement of the 'hypercarry base attack' value for both character and weapon buff calculations complicates things immensely
+        Either a weapon has to be an object referenced as property of a character - in which case it has to contain holder reference which isn't good practice,
+        or it has to be contained within the character object itself - in which case we can't override weapons in a convenient manner
+        Possible solution: rewrite it so that 'hypercarry widget' contains a character widget, a weapon widget, and calls buff functions itself, passing one to another when necessary'''
         if weapon == None:
             weapon = self.weapon
         return self.base_stats['ATK'] + weapon.atk[weapon.level]
-    # Note: this one function - or rather the requirement of the 'hypercarry base attack' value for both character and weapon buff calculations complicates things immensely
-    # Either a weapon has to be an object referenced as property of a character - in which case it has to contain holder reference which isn't good practice,
-    # or it has to be contained within the character object itself - in which case we can't override weapons in a convenient manner
-    # Possible solution: rewrite it so that 'hypercarry widget' contains a character widget, a weapon widget, and calls buff functions itself, passing one to another when necessary
+    # 
         
     def calculate_stats(self, weapon=None, artifacts=None):
-        # Calculating 'internal' stats. Allows me to not have to change the calculate_output function for specific hypercarries
+        '''Calculating 'internal' stats. Allows me to not have to change the calculate_output function for specific hypercarries'''
         stats = {}
         if weapon == None:
             weapon = self.weapon
@@ -107,17 +110,17 @@ class Char_hypercarry(Char_placeholder):
         return stats
     
     def apply_self_buffs(self, stats):
-        # Independent self-buffs such as ascension passives giving flat stat increases that can be assumed to be always active
+        '''Independent self-buffs such as ascension passives giving flat stat increases that can be assumed to be always active'''
         return stats
 
     def apply_conversions(self, stats):
-        # Post-buff conversions such as Hu Tao's PP and Itto's burst. Basic hypercarry doesn't have any self-buffs, so the values are just returned
+        '''Post-buff conversions such as Hu Tao's PP and Itto's burst. Basic hypercarry doesn't have any self-buffs, so the values are just returned'''
         return stats
 
 class Weapon_base():
-    def __init__(self, holder=None, name='Basic weapon', atk_values=(380, 440, 500), asc_stat='None', asc_values=(0, 0, 0), psv_type='None', psv_range=(False,), psv_value=((None,),)):
-        # Because a weapon holds relatively little information, I did not create a non-widget class for them
-        # Values are given for levels 70/70, 80/80, 90/90 because otherwise it's too much numbers and likely irrelevant anyhow.
+    '''Because a weapon holds relatively little information, I did not create a non-widget class for them
+    Values are given for levels 70/70, 80/80, 90/90 because otherwise it's too much numbers and likely irrelevant anyhow.'''
+    def __init__(self, holder=None, name='Basic weapon', atk_values=(380, 440, 500), asc_stat='None', asc_values=(0, 0, 0), psv_type='None', psv_range=(False,), psv_value=((None,),)):        
         self.holder = holder # Required to pass some base stats for weapon passives
         self.name = name
         self.level = '90/90'
@@ -127,22 +130,23 @@ class Weapon_base():
         self.psv = {'type': psv_type, 'range': psv_range, 'active': psv_range[0], 'value': psv_value}
     
     def calculate_refines(self):
-        psv_value = [] # Handling refines additively
+        '''Handling refines additively'''
+        psv_value = []
         for i in range(len(self.psv['value'][0])): psv_value.append(self.psv['value'][0][i] + self.psv['value'][1][i]*(self.refine - 1))
         return psv_value
     
     def apply_buffs(self, stats):
-        # Apply weapon buffs to stats: basic weapon has none
+        '''Apply weapon buffs to stats: basic weapon has none'''
         return stats
 
     def apply_conversions(self, stats):
-        # Apply conversions to stats: basic weapon has none
+        '''Apply conversions to stats: basic weapon has none'''
         return stats
 
 class Char_buffer(Char_placeholder):
+    '''Base buffer class. An abstract party member that provides elemental resonance, but no direct buffs.'''
     def __init__(self, name='None', element='Physical'):
         super(Char_buffer, self).__init__(name, element)
-        # Abstract party member that provides elemental resonance, but no direct buffs
         self.fields = tuple()
 
     def buff(self, stats, hypercarry, weapon):
